@@ -16,7 +16,8 @@ var totalPop = 2;
 var currentPop = 2;
 var employed = 0;
 var unemployed = 2;
-var settlerCounter = 300;
+var SETTLER_MAX_INTERVAL = 60;
+var settlerCounter = SETTLER_MAX_INTERVAL;
 
 
 var save = {
@@ -259,44 +260,76 @@ function buyStoneAxes(){
 				totalPopNodeList[i].innerHTML = totalPop;
 		}
 	}
-	function settlerArrival(){a
+	
+	
+	
+	
+	//function for  handling  imigrant arrival
+	function settlerArrival(){
 		var settlersArrived = (Math.ceil(Math.random() * 1.25));
+		console.log("Number of settlers arrived:");
 		console.log(settlersArrived);
 		
+		//if the number of new arrivals exceed the total allowed limit
 		if(settlersArrived + currentPop >= totalPop){
+			//then current population equal the max
 			currentPop = totalPop;
-			unemployed = totalPop;
+			
+			//unemployed  needs to be previous unemployed
+			//plus how many arrivals got us to max population
+			unemployed = unemployed + (currentPop - unemployed);
 		}
-		else{
+		else{ //just add the number of new arrivals
 			currentPop = currentPop + settlersArrived;
 			unemployed = unemployed + settlersArrived;
 		}
+		
 		
 		document.getElementById('currentPop').innerHTML = currentPop;
 		document.getElementById('currentPopUnemployed').innerHTML = unemployed;
 	}
     
+	
+	
+	
+	
+	
+	
     //Tooltip
 	function toolTip(){
         
         document.createElement
 	}
 	
+	
+	
+	
+	
+//function to run the game timer (fires every 1000ms)
 window.setInterval(function(){
 	
+	// update resources
 	woodClick(lumberjacks*woodMultiplier);
 	foodClick(farmers*foodMultiplier);
 	stoneClick(miners*stoneMultiplier);
 	
+	
+	//decrement the settler arrival time
 	settlerCounter--;
+	
+	//get the minutes from settler counter
 	document.getElementById('minutes').innerHTML = (Math.floor(settlerCounter/60));	
+	
+	//get the seconds from settler counter
 	if (Math.floor(settlerCounter%60) < 10){
 		document.getElementById('seconds').innerHTML = "0" +(Math.floor(settlerCounter%60));}
 	else{
 		document.getElementById('seconds').innerHTML = (Math.floor(settlerCounter%60));}
-	if (settlerCounter == 0){
+		
+	//reset settler timer	
+	if (settlerCounter <= 0){
 		settlerArrival();
-		settlerCounter = 60;
+		settlerCounter = SETTLER_MAX_INTERVAL;
 	}
 	
 }, 1000);
