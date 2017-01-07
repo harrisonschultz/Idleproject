@@ -20,24 +20,25 @@ var SETTLER_MAX_INTERVAL = 60;
 var settlerCounter = SETTLER_MAX_INTERVAL;
 
 
-var save = {
-			wood: wood,
-			food: food,
-			stone: stone,
-			lumberjacks: lumberjacks,
-			farmers: farmers,
-			miners: miners,
-			foodMultiplier: foodMultiplier,
-			woodMultiplier: woodMultiplier,
-			stoneMultiplier: stoneMultiplier,
-			finishedUpgrades: finishedUpgrades,
-			totalPop:  totalPop,
-			currentPop: currentPop,
-			employed: employed,
-			unemployed: unemployed,
-			huts: huts
-};
 
+	
+	var save = {
+			wood: 				 		wood,
+			food: 				 		food,
+			stone: 				 		stone,
+			lumberjacks: 	 		lumberjacks,
+			farmers: 			 		farmers,
+			miners: 			 		miners,
+			foodMultiplier:  		foodMultiplier,
+			woodMultiplier: 		woodMultiplier,
+			stoneMultiplier: 		stoneMultiplier,
+			finishedUpgrades: finishedUpgrades,
+			totalPop:  				totalPop,
+			currentPop: 			currentPop,
+			employed: 				employed,
+			unemployed: 			unemployed,
+			huts: 						huts
+};
 
 function woodClick(number){
     wood = wood + number;
@@ -54,36 +55,41 @@ function stoneClick(number){
 
 
 
+
+//functions for employing people
 function buyLumberjack(){
-    var lumberjackCost = Math.floor(10 * Math.pow(1.1,lumberjacks));   
-    if(food >= lumberjackCost && unemployed >= 1){ 
+	var lumberjackCost = Math.floor(10 * Math.pow(1.1,lumberjacks));   
+	
+	
+	if(food >= lumberjackCost && unemployed >= 1){ 
 		unemployed--;
 		employed++	;
-        lumberjacks = lumberjacks + 1;                                 
-    	food = food - lumberjackCost;           
+   lumberjacks = lumberjacks + 1;                                 
+   food = food - lumberjackCost;           
+   
+   //update displays
 		document.getElementById('lumberjacks').innerHTML = lumberjacks;  
 		document.getElementById("food").innerHTML = food;  
 		var nextCost = Math.floor(10 * Math.pow(1.1,lumberjacks));     
-    document.getElementById('lumberjackCost').innerHTML = nextCost; 
-	document.getElementById('currentPopEmployed').innerHTML = employed;
-	document.getElementById('currentPopUnemployed').innerHTML = unemployed;
-	
-    };
+   document.getElementById('lumberjackCost').innerHTML = nextCost; 
+		document.getElementById('currentPopEmployed').innerHTML = employed;
+		document.getElementById('currentPopUnemployed').innerHTML = unemployed;
+  };
 };
 function buyFarmer(){
-    var farmerCost = Math.floor(10 * Math.pow(1.1,farmers));     
-    if(food >= farmerCost && unemployed >= 1){      
+	var farmerCost = Math.floor(10 * Math.pow(1.1,farmers));     
+	if(food >= farmerCost && unemployed >= 1){      
 		unemployed--;
 		employed++	;
-        farmers = farmers + 1;                                   
-    	food = food - farmerCost;                         
-        document.getElementById('farmers').innerHTML = farmers; 
-        document.getElementById('food').innerHTML = food; 
- var nextCost = Math.floor(10 * Math.pow(1.1,farmers));     
-    document.getElementById("farmerCost").innerHTML = nextCost;  
-	document.getElementById('currentPopEmployed').innerHTML = employed;
-	document.getElementById('currentPopUnemployed').innerHTML = unemployed;
-    };
+		farmers = farmers + 1;                                   
+		food = food - farmerCost;                         
+		document.getElementById('farmers').innerHTML = farmers; 
+		document.getElementById('food').innerHTML = food; 
+		var nextCost = Math.floor(10 * Math.pow(1.1,farmers));     
+		document.getElementById("farmerCost").innerHTML = nextCost;  
+		document.getElementById('currentPopEmployed').innerHTML = employed;
+		document.getElementById('currentPopUnemployed').innerHTML = unemployed;
+	};
    
 };
 function buyMiner(){
@@ -207,6 +213,9 @@ function buyStoneAxes(){
 			};
 	};
 	
+
+
+
 	function saveIt(){
 		save = {
 			wood: wood,
@@ -228,6 +237,8 @@ function buyStoneAxes(){
 		localStorage.setItem("save",JSON.stringify(save));
 		
 	}
+	
+	//fucntion loads the saved  data from the local storage
 	function load(){
 		var savegame = JSON.parse(localStorage.getItem("save"));
 		if (typeof savegame.food !== "undefined")food = savegame.food;
@@ -264,7 +275,14 @@ function buyStoneAxes(){
 	
 	
 	
+	
 	//function for  handling  imigrant arrival
+	//
+	// description:  this function will be fired every SETTLER_MAX_INTERVAL
+	// and will randomly generate 1+ new immigrants. 
+	// that number is then checked against the max population limit
+	// to ensure there is no conflict
+	
 	function settlerArrival(){
 		var settlersArrived = (Math.ceil(Math.random() * 1.25));
 		console.log("Number of settlers arrived:");
@@ -306,6 +324,11 @@ function buyStoneAxes(){
 	
 	
 //function to run the game timer (fires every 1000ms)
+//
+//description: this function runs the resource update functions,
+//	decrements the new settler arrival time,  and displays the 
+//  new settler arrival time.
+
 window.setInterval(function(){
 	
 	// update resources
@@ -313,6 +336,13 @@ window.setInterval(function(){
 	foodClick(farmers*foodMultiplier);
 	stoneClick(miners*stoneMultiplier);
 	
+	
+	
+	
+	
+	
+	
+	//----   display settler arrival time   ----
 	
 	//decrement the settler arrival time
 	settlerCounter--;
