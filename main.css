@@ -2,9 +2,16 @@
 	margin: 2px;
 
 }
+#resourcesTable {
+	table-layout: fixed;
+}
 #resourcesTable td{
 	border-bottom: 1px solid rgba(255,255,255,.2);
-	
+	width: 80px;
+
+}
+#resourcesTable .values{
+	text-align: center;
 }
 #upgradeTable button {
 	margin: 2px;

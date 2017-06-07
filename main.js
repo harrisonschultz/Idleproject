@@ -2,7 +2,7 @@
 var wood = 0;
 var food = 0;
 var stone = 0;
-var water = 100;
+var water = 2;
 
 //Workers
 var lumberjacks = 0;
@@ -420,15 +420,31 @@ window.setInterval(function(){
 	woodClick(lumberjacks*woodMultiplier);
 	foodClick(farmers*foodMultiplier);
 	stoneClick(miners*stoneMultiplier);
-	setWater ((0.25 * totalPop),"subtract");
+	
 
 
 	//resourece consequences
 	if (water == 0){
-		totalPop= totalPop - 1;
+		if( currentPop > 0){
+		currentPop= currentPop - 1;
+			if(unemployed > 0){
+				unemployed = unemployed -1;
+				document.getElementById('currentPopUnemployed').innerHTML = unemployed;
+			}	
+			else if(employed > 0){
+				employed = employed -1;
+				document.getElementById('currentPopEmployed').innerHTML = employed;
+			}
+
+		document.getElementById("currentPop").innerHTML = currentPop;
+		}
+
+	}
+	else{
+		setWater ((0.25 * totalPop),"subtract");
 	}
 	
-	
+	/*
 	//----   display settler arrival time   ----
 	//decrement the settler arrival time
 	settlerCounter--;
@@ -437,6 +453,7 @@ window.setInterval(function(){
 	document.getElementById('minutes').innerHTML = (Math.floor(settlerCounter/60));	
 	
 	//get the seconds from settler counter
+	
 	if (Math.floor(settlerCounter%60) < 10){
 		document.getElementById('seconds').innerHTML = "0" +(Math.floor(settlerCounter%60));}
 	else{
@@ -446,7 +463,7 @@ window.setInterval(function(){
 	if (settlerCounter <= 0){
 		settlerArrival();
 		settlerCounter = SETTLER_MAX_INTERVAL;
-	}
+	}*/
 	
 }, 1000);
 
