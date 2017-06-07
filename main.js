@@ -70,7 +70,15 @@ function stoneClick(number){
     stone = stone + number;
     document.getElementById("stone").innerHTML = stone;
 };
-
+function setWater(number, operator){
+	if (operator == "add"){
+		water = water +number;
+	}
+	else if (operator == "subtract"){
+		water = water - number;
+	}
+	document.getElementById('water').innerHTML = water;
+}
 
 
 
@@ -412,6 +420,13 @@ window.setInterval(function(){
 	woodClick(lumberjacks*woodMultiplier);
 	foodClick(farmers*foodMultiplier);
 	stoneClick(miners*stoneMultiplier);
+	setWater ((0.25 * totalPop),"subtract");
+
+
+	//resourece consequences
+	if (water == 0){
+		totalPop= totalPop - 1;
+	}
 	
 	
 	//----   display settler arrival time   ----
