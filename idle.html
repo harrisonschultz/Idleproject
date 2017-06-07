@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css"/>
+		<link rel="stylesheet" type="text/css"/ href="main.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
 		<script src="jquery-1.11.3.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -12,103 +12,109 @@
 			}
 		</style>
 	</head>
-	<body onload="load()">
+	<body onload="load()" style="background-color: rgba(20,20,20,1); color: white">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-5">
-					<table>
+					<table id="resourcesTable">
 						<colgroup>
 							<col span="6" style="width:100px">
 						</colgroup>
 						<caption><b><center>Resources</center></b></caption>
 						<tr>
-				<td>Food:</td>
-				<td id="food">0</td>
-				<td>Farmers:</td>
-				<td id="farmers">0</td>
+				<td class="food">Food:</td>
+				<td class="food" id="food">0</td>
+				<td class="farmers">Farmers:</td>
+				<td class="farmers" id="farmers">0</td>
 				<td>Population:</td>
 				<td><span id="currentPop"> 2</span>/<span class="totalPop">2</span> </td>
-				<td style="width:150px">Immigrant Arrival: <span id="minutes">1</span>:<span id="seconds">00</span></td>
+				<td style="width:150px">New Settler: <span id="minutes">1</span>:<span id="seconds">00</span></td>
 			</tr>
 			<tr>
-				<td>Wood:</td>
-				<td id="wood">0</td>
-				<td>Lumberjacks:</td>
-				<td id="lumberjacks">0</td>
+				<td class="wood">Wood:</td>
+				<td class="wood" id="wood">0</td>
+				<td class="lumberjacks">Lumberjacks:</td>
+				<td class="lumberjacks" id="lumberjacks">0</td>
 				<td>Employed:</td>
 				<td><span id="currentPopEmployed"> 0</span>/<span class="totalPop">2</span></td>
+				<td></td>
 				
 			</tr>
 			<tr>
-				<td>Stone:</td>
-				<td id="stone">0</td>
-				<td>Miners:</td>
-				<td id="miners">0</td>
+				<td class="stone">Stone:</td>
+				<td class="stone" id="stone">0</td>
+				<td class="miners">Miners:</td>
+				<td class="miners" id="miner">0</td>
 				<td>Unemployed:</td>
 				<td><span id="currentPopUnemployed"> 2</span>/<span class="totalPop">2</span></td>
+				<td></td>
 			</tr>
 		</table>
-		<hr />
-			
-		<table>
+			<hr/>
+
+		<table id="hireTable">
 			<colgroup>
-				<col span="2"style="width:150px">
+				<col span="2" style="width:130px">
 			</colgroup>	
-			<tr style="height:25px">
+			<tr style="">
 				<td><button onclick="foodClick(1)" onmouseover = "toolTip()" class="btn btn-primary btn-md">Harvest Food</button></td>
 				<td><button onclick="buyFarmer()" class="btn btn-success btn-md">Hire Farmer</button></td>
 				
 			</tr>
-			<tr style="height:50px">
-				<td><button onclick="woodClick(1)" class="btn btn-primary btn-md">Chop Wood</button></td>
+			<tr style="margin:25px">
+				<td><button onclick="woodClick(100)" class="btn btn-primary btn-md">Chop Wood</button></td>
 				<td><button onclick="buyLumberjack()" class="btn btn-success btn-md">Hire Lumberjack</button></td>
 				
 			</tr>
-			<tr style="height:25px">
-				<td><button onclick="stoneClick(1)" class="btn btn-primary btn-md">Mine Stone</button></td>
+			<tr style="margin:25px">
+				<td><button onclick="stoneClick(100)" class="btn btn-primary btn-md">Mine Stone</button></td>
 				<td><button onclick="buyMiner()" class="btn btn-success btn-md">Hire Miner</button></td>
 				
 			</tr>
+			<tr style="margin:25px">
+			<td></td>
+				<td><button onclick="buyBreeder(1)" class="btn btn-success btn-md">Hire Breeder</button></td>
+			</tr>
 	</table>
-		<hr />
-		<table>
+		<hr style="border-top: 1px solid white)" />
+		<table id="upgradeTable">
+
+				<caption><b><center>Upgrades</center></b></caption>
+
 			<tr style="height:30px">
-				<td><b><center>Upgrades</center></b></td>
+				<td><button onclick="buyPlough()" data-toggle ="tooltip" data-placement="right" class = "upgradeButtons btn btn-warning btn-sm" id ="plough" title = "Increases food gain from farmers by 25%.<br /> Cost: 100 stone, 100 wood">Plough</button></td>			
+				<td hidden id="currentResearchCaption" style="width:250px; color: rgba(0,0,0,0.55);"><b><center>Current Research</center></b></td>
 			</tr>
 			<tr style="height:30px">
-				<td><button onclick="buyPlough()" data-toggle ="tooltip" data-placement="right" class = "upgradeButtons" id ="plough" title = "Increases food gain from farmers by 25%.<br /> Cost: 100 stone, 100 wood">Plough</button></td>			
-				<td hidden id="currentResearchCaption" style="width:250px"><center>Current Research</center></td>
-			</tr>
-			<tr style="height:30px">
-				<td><button onclick="buyStoneAxes()" data-toggle ="tooltip" data-placement="right" class = "upgradeButtons" id="stoneAxes" title ="Increases wood gain from lumberjacks by 25%. <br />
+				<td><button onclick="buyStoneAxes()" data-toggle ="tooltip" data-placement="right" class = "upgradeButtons btn btn-warning btn-sm" id="stoneAxes" title ="Increases wood gain from lumberjacks by 25%. <br />
 				Cost: 100 stone, 100 wood">Stone Axes</button></td>
 				<td>
 					<div hidden id="researchBar"  class="container" style="width:250px">
-						<div class="progress">
-							<div id="researchProgress" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%"></div>
+						<div style="border: 1px solid rgba(0,0,0,.3)" class="progress">
+							<div id="researchProgress" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%;"></div>
 							</div>
 						</div>
 					</td>
 						<tr style="height:30px">
-							<td><button onclick="buyStonePicks()" class = "upgradeButtons" id="stonePicks" data-toggle ="tooltip" data-placement="right" title = "Increases stone gain from miners by 25%. <br />
+							<td><button onclick="buyStonePicks()" class = "upgradeButtons btn btn-warning btn-sm" id="stonePicks" data-toggle ="tooltip" data-placement="right" title = "Increases stone gain from miner by 25%. <br />
 							Cost: 100 stone, 100 wood">Stone Picks</button></td>
 						</tr>
 					</table>
 					
 					
 				</div>
-					<div class="col-sm-6">
-						<table>
-							<caption>Buildings</caption>
+					<div class="col-sm-6" style="border-left: 1px solid rgba(0,0,0,.3)">
+						<table id="buildingTable">
+							<caption><b><center>Buildings</center></b></caption>
 							<tr>
-								<td style="width:150px"><button onclick="buildHut()">Hut</button></td>
+								<td style="width:150px"><button class="buildingButtons btn btn-danger btn-sm" onclick="buildHut()">Hut</button></td>
 								<td style="text-align:right">Hut Cost: <span id="hutCostWood">100</span> Wood, <span id="hutCostStone">50</span> Stone</td>
 							</tr>
 						</table>
 					</div>
 				<div class="col-sm">
-                <a href="CardGameProject.html">Card Game</a>
-					<button onclick="saveIt()" data-toggle ="tooltip" data-placement="bottom" title="Manually save the game">Save</button>
+ 
+					<button style="margin: 4px; color: black" onclick="saveIt()" data-toggle ="tooltip" data-placement="bottom" title="Manually save the game">Save</button>
 				</div>
 			</div>
 		</div>

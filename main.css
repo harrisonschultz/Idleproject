@@ -1,0 +1,41 @@
+#hireTable button{
+	margin: 2px;
+
+}
+#resourcesTable td{
+	border-bottom: 1px solid rgba(255,255,255,.2);
+}
+#upgradeTable button {
+	margin: 2px;
+	color: black;
+}
+#buildingTable button {
+
+}
+body{
+	font-family: Verdana,Arial,sans-serif;
+	background-color: gray;
+}
+caption{
+	color: white;
+}
+
+.food{
+	color: chartreuse;
+}
+.wood{
+	color: peru;
+}
+
+.stone{
+	color: darkgray;
+}
+.farmers{
+	color:	forestgreen;
+}
+.lumberjacks{
+	color: sienna;
+}
+.miners{
+	color: rgb(140,140,140);
+}

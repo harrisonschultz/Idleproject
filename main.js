@@ -3,7 +3,8 @@ var food = 0;
 var stone = 0;
 var lumberjacks = 0;
 var farmers = 0;
-var miners = 0;
+var miner = 0;
+var breeder = 0;
 var foodMultiplier = 1;
 var woodMultiplier = 1;
 var stoneMultiplier = 1;
@@ -28,7 +29,7 @@ var settlerCounter = SETTLER_MAX_INTERVAL;
 			stone: 				 		stone,
 			lumberjacks: 	 		lumberjacks,
 			farmers: 			 		farmers,
-			miners: 			 		miners,
+			miner: 			 		miner,
 			foodMultiplier:  		foodMultiplier,
 			woodMultiplier: 		woodMultiplier,
 			stoneMultiplier: 		stoneMultiplier,
@@ -93,15 +94,15 @@ function buyFarmer(){
    
 };
 function buyMiner(){
-    var minerCost = Math.floor(10 * Math.pow(1.1,miners));   
+    var minerCost = Math.floor(10 * Math.pow(1.1,miner));   
     if(food >= minerCost && unemployed >= 1){ 
 		unemployed--;
 		employed++;
-        miners = miners + 1;                                 
+        miner = miner + 1;                                 
     	food = food - minerCost;                       
-        document.getElementById('miners').innerHTML = miners; 
+        document.getElementById('miner').innerHTML = miner; 
         document.getElementById('food').innerHTML = food;  
-		  var nextCost = Math.floor(10 * Math.pow(1.1,miners));       
+		  var nextCost = Math.floor(10 * Math.pow(1.1,miner));       
     document.getElementById('minerCost').innerHTML = nextCost; 
 	document.getElementById('currentPopEmployed').innerHTML = employed;
 	document.getElementById('currentPopUnemployed').innerHTML = unemployed;
@@ -109,7 +110,23 @@ function buyMiner(){
     };
   
 };
-
+function buyBreeder(){
+    var breederCost = Math.floor(10 * Math.pow(1.1,breeder));   
+    if(food >= breederCost && unemployed >= 1){ 
+		unemployed--;
+		employed++;
+        breeder = breeder + 1;                                 
+    	food = food - buyBreederCost;                       
+        document.getElementById('breeder').innerHTML = breeder; 
+        document.getElementById('food').innerHTML = food;  
+		  var nextCost = Math.floor(10 * Math.pow(1.1,breeder));       
+    document.getElementById('breederCost').innerHTML = nextCost; 
+	document.getElementById('currentPopEmployed').innerHTML = employed;
+	document.getElementById('currentPopUnemployed').innerHTML = unemployed;
+	
+    };
+};
+  
 function buyPlough(){
 	var upgradeCost = 100;
 	if(wood >= upgradeCost && stone >= upgradeCost){
@@ -223,7 +240,7 @@ function buyStoneAxes(){
 			stone: stone,
 			lumberjacks: lumberjacks,
 			farmers: farmers,
-			miners: miners,
+			miner: miner,
 			foodMultiplier: foodMultiplier,
 			woodMultiplier: woodMultiplier,
 			stoneMultiplier: stoneMultiplier,
@@ -246,7 +263,7 @@ function buyStoneAxes(){
 		if (typeof savegame.stone !== "undefined") stone = savegame.stone;
 		if (typeof savegame.farmers!== "undefined") farmers = savegame.farmers;
 		if (typeof savegame.lumberjacks !== "undefined") lumberjacks = savegame.lumberjacks;
-		if (typeof savegame.miners!== "undefined")  miners = savegame.miners;
+		if (typeof savegame.miner!== "undefined")  miner = savegame.miner;
 		if (typeof savegame.foodMultiplier!== "undefined") foodMultiplier = savegame.foodMultiplier;
 		if (typeof savegame.woodMultiplier!== "undefined") woodMultiplier = savegame.woodMultiplier;
 		if (typeof savegame.stoneMultiplier!== "undefined") stoneMultiplier = savegame.stoneMultiplier;
@@ -259,7 +276,7 @@ function buyStoneAxes(){
 		
 		document.getElementById('farmers').innerHTML = farmers; 
         document.getElementById('food').innerHTML = food; 
-		document.getElementById('miners').innerHTML = miners; 
+		document.getElementById('miner').innerHTML = miner; 
         document.getElementById('stone').innerHTML = stone; 
 		document.getElementById('lumberjacks').innerHTML = lumberjacks; 
         document.getElementById('wood').innerHTML = wood; 
@@ -334,16 +351,10 @@ window.setInterval(function(){
 	// update resources
 	woodClick(lumberjacks*woodMultiplier);
 	foodClick(farmers*foodMultiplier);
-	stoneClick(miners*stoneMultiplier);
-	
-	
-	
-	
-	
+	stoneClick(miner*stoneMultiplier);
 	
 	
 	//----   display settler arrival time   ----
-	
 	//decrement the settler arrival time
 	settlerCounter--;
 	
