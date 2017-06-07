@@ -1,18 +1,31 @@
+//Resources
 var wood = 0;
 var food = 0;
 var stone = 0;
+var water = 100;
+
+//Workers
 var lumberjacks = 0;
 var farmers = 0;
-var miner = 0;
-var breeder = 0;
+var miners = 0;
+var breeders = 0;
+
+//Multipliers
 var foodMultiplier = 1;
 var woodMultiplier = 1;
 var stoneMultiplier = 1;
+
+//Upgrades
 var researchPoints = 0;
 var researchInterval;
 var currentUpgrade = "";
-var finishedUpgrades;
+var finishedUpgrades = [];
+
+//Buildings
 var huts = 0;
+var wells = 0;
+
+//Population
 var totalPop = 2;
 var currentPop = 2;
 var employed = 0;
@@ -27,9 +40,11 @@ var settlerCounter = SETTLER_MAX_INTERVAL;
 			wood: 				 		wood,
 			food: 				 		food,
 			stone: 				 		stone,
+			water: 						water,
+			breeders: 					breeders,
 			lumberjacks: 	 		lumberjacks,
 			farmers: 			 		farmers,
-			miner: 			 		miner,
+			miners: 			 		miners,
 			foodMultiplier:  		foodMultiplier,
 			woodMultiplier: 		woodMultiplier,
 			stoneMultiplier: 		stoneMultiplier,
@@ -38,7 +53,9 @@ var settlerCounter = SETTLER_MAX_INTERVAL;
 			currentPop: 			currentPop,
 			employed: 				employed,
 			unemployed: 			unemployed,
-			huts: 						huts
+			huts: 						huts,
+			wells: 					wells,
+
 };
 
 function woodClick(number){
@@ -72,57 +89,69 @@ function buyLumberjack(){
 		document.getElementById('lumberjacks').innerHTML = lumberjacks;  
 		document.getElementById("food").innerHTML = food;  
 		var nextCost = Math.floor(10 * Math.pow(1.1,lumberjacks));     
-   document.getElementById('lumberjackCost').innerHTML = nextCost; 
+  		//document.getElementById('lumberjackCost').innerHTML = nextCost; 
 		document.getElementById('currentPopEmployed').innerHTML = employed;
 		document.getElementById('currentPopUnemployed').innerHTML = unemployed;
   };
 };
 function buyFarmer(){
 	var farmerCost = Math.floor(10 * Math.pow(1.1,farmers));     
+
+
 	if(food >= farmerCost && unemployed >= 1){      
 		unemployed--;
 		employed++	;
 		farmers = farmers + 1;                                   
-		food = food - farmerCost;                         
+		food = food - farmerCost; 
+
+
 		document.getElementById('farmers').innerHTML = farmers; 
 		document.getElementById('food').innerHTML = food; 
 		var nextCost = Math.floor(10 * Math.pow(1.1,farmers));     
-		document.getElementById("farmerCost").innerHTML = nextCost;  
+		//document.getElementById("farmerCost").innerHTML = nextCost;  
 		document.getElementById('currentPopEmployed').innerHTML = employed;
 		document.getElementById('currentPopUnemployed').innerHTML = unemployed;
 	};
    
 };
 function buyMiner(){
-    var minerCost = Math.floor(10 * Math.pow(1.1,miner));   
+    var minerCost = Math.floor(10 * Math.pow(1.1,miners));  
+
+
     if(food >= minerCost && unemployed >= 1){ 
 		unemployed--;
 		employed++;
-        miner = miner + 1;                                 
-    	food = food - minerCost;                       
-        document.getElementById('miner').innerHTML = miner; 
+        miners = miners + 1;                                 
+    	food = food - minerCost; 
+
+
+        document.getElementById('miners').innerHTML = miners; 
         document.getElementById('food').innerHTML = food;  
-		  var nextCost = Math.floor(10 * Math.pow(1.1,miner));       
-    document.getElementById('minerCost').innerHTML = nextCost; 
-	document.getElementById('currentPopEmployed').innerHTML = employed;
-	document.getElementById('currentPopUnemployed').innerHTML = unemployed;
+		var nextCost = Math.floor(10 * Math.pow(1.1,miners));       
+    	//document.getElementById('minerCost').innerHTML = nextCost; 
+		document.getElementById('currentPopEmployed').innerHTML = employed;
+		document.getElementById('currentPopUnemployed').innerHTML = unemployed;
 	
     };
   
 };
 function buyBreeder(){
-    var breederCost = Math.floor(10 * Math.pow(1.1,breeder));   
+    var breederCost = Math.floor(10 * Math.pow(1.1,breeder));  
+
+
     if(food >= breederCost && unemployed >= 1){ 
 		unemployed--;
 		employed++;
         breeder = breeder + 1;                                 
-    	food = food - buyBreederCost;                       
+    	food = food - buyBreederCost;   
+
+
         document.getElementById('breeder').innerHTML = breeder; 
         document.getElementById('food').innerHTML = food;  
-		  var nextCost = Math.floor(10 * Math.pow(1.1,breeder));       
-    document.getElementById('breederCost').innerHTML = nextCost; 
-	document.getElementById('currentPopEmployed').innerHTML = employed;
-	document.getElementById('currentPopUnemployed').innerHTML = unemployed;
+		var nextCost = Math.floor(10 * Math.pow(1.1,breeder));       
+    	//document.getElementById('breederCost').innerHTML = nextCost; 
+		document.getElementById('currentPopEmployed').innerHTML = employed;
+		document.getElementById('currentPopUnemployed').innerHTML = unemployed;
 	
     };
 };
@@ -158,6 +187,16 @@ function buyStoneAxes(){
 		upgradeHandler();
 		document.getElementById("stonePicks").setAttribute("hidden", 0);	
 	};
+}
+	function buyStoneShovels(){
+	var upgradeCost = 100;
+	if(wood >= upgradeCost && stone >= upgradeCost){
+		wood = wood - upgradeCost;
+		stone = stone - upgradeCost;
+		currentUpgrade = "stoneShovels";
+		upgradeHandler();
+		document.getElementById("stoneShovels").setAttribute("hidden", 0);	
+	};
 
 };
 	function buildHut(){
@@ -175,7 +214,14 @@ function buyStoneAxes(){
 			for (i = 0; i <	totalPopNodeList.length; i++) {
 				totalPopNodeList[i].innerHTML = totalPop;
 			}
+		}
 	}
+	function buildWell(){
+		var wellCost = Math.floor(100 * Math.pow(1.1,wells)); 
+		stone = stone - 100;
+		water = water + 100;
+		wood = wood - 25;
+		document.getElementById('water').innerHTML = water;
 	}
 
 	function upgradeHandler(){
@@ -208,19 +254,30 @@ function buyStoneAxes(){
 			console.log("Stone Axes Complete");
 			finishedUpgrades.push("stoneAxes");
 			woodMultiplier = woodMultiplier + 0.25;
-		
+			
 		}
 		else if (currentUpgrade == "stonePicks"){
 			console.log("Stone Picks Complete");
 			finishedUpgrades.push("stonePicks");
 			stoneMultiplier = stoneMultiplier + 0.25;
-		
+			if(finishedUpgrades.lastIndexOf("stoneShovels") != -1){
+				document.getElementById("well").removeAttribute("hidden");
+	
+			}
+		}
+		else if (currentUpgrade == "stoneShovels"){
+			console.log("Stone Shovels Complete");
+			finishedUpgrades.push("stoneShovels");
+			console.log(finishedUpgrades);
+			if(finishedUpgrades.lastIndexOf("stonePicks") != -1){
+				document.getElementById("well").removeAttribute("hidden");
+			}
 		}
 	}
-
+//Research Timer
 	function researchUpgrade(){
 		document.getElementById("researchProgress").style.width = "" + researchPoints + "%";
-			researchPoints = researchPoints + 0.5;
+			researchPoints = researchPoints + 20;
 		if (researchPoints >= 100){
 			researchPoints = 0;
 			document.getElementById("currentResearchCaption").removeAttribute("hidden");	
@@ -228,7 +285,7 @@ function buyStoneAxes(){
 			upgradeComplete();
 			clearInterval(researchInterval);
 			};
-	};
+	}
 	
 
 
@@ -273,13 +330,16 @@ function buyStoneAxes(){
 		if (typeof savegame.employed!== "undefined") employed = savegame.employed;
 		if (typeof savegame.unemployed!== "undefined") unemployed = savegame.unemployed;
 		if (typeof savegame.huts!== "undefined") huts = savegame.huts;
+		if (typeof savegame.wells!== "undefined") wells = savegame.wells;
 		
 		document.getElementById('farmers').innerHTML = farmers; 
         document.getElementById('food').innerHTML = food; 
-		document.getElementById('miner').innerHTML = miner; 
+		document.getElementById('miners').innerHTML = miners; 
         document.getElementById('stone').innerHTML = stone; 
 		document.getElementById('lumberjacks').innerHTML = lumberjacks; 
+		document.getElementById('breeders').innerHTML = breeders; 
         document.getElementById('wood').innerHTML = wood; 
+        document.getElementById('water').innerHTML = water; 
 		document.getElementById('currentPop').innerHTML = currentPop;
 		document.getElementById('currentPopEmployed').innerHTML = employed;
 		document.getElementById('currentPopUnemployed').innerHTML = unemployed;
@@ -351,7 +411,7 @@ window.setInterval(function(){
 	// update resources
 	woodClick(lumberjacks*woodMultiplier);
 	foodClick(farmers*foodMultiplier);
-	stoneClick(miner*stoneMultiplier);
+	stoneClick(miners*stoneMultiplier);
 	
 	
 	//----   display settler arrival time   ----
@@ -374,3 +434,4 @@ window.setInterval(function(){
 	}
 	
 }, 1000);
+

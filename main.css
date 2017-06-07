@@ -4,6 +4,7 @@
 }
 #resourcesTable td{
 	border-bottom: 1px solid rgba(255,255,255,.2);
+	
 }
 #upgradeTable button {
 	margin: 2px;
@@ -30,6 +31,9 @@ caption{
 .stone{
 	color: darkgray;
 }
+.water{
+	color: lightseagreen;
+}
 .farmers{
 	color:	forestgreen;
 }
@@ -38,4 +42,7 @@ caption{
 }
 .miners{
 	color: rgb(140,140,140);
+}
+.breeders{
+	color: lightcoral;
 }

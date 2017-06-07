@@ -44,9 +44,18 @@
 				<td class="stone">Stone:</td>
 				<td class="stone" id="stone">0</td>
 				<td class="miners">Miners:</td>
-				<td class="miners" id="miner">0</td>
+				<td class="miners" id="miners">0</td>
 				<td>Unemployed:</td>
 				<td><span id="currentPopUnemployed"> 2</span>/<span class="totalPop">2</span></td>
+				<td></td>
+				
+			</tr>
+			
+			<tr>
+				<td class="water">Water:</td>
+				<td class="water" id="water">100</td>
+				<td class="breeders">Breeders:</td>
+				<td class="breeders" id="breeders">0</td>
 				<td></td>
 			</tr>
 		</table>
@@ -99,16 +108,21 @@
 							<td><button onclick="buyStonePicks()" class = "upgradeButtons btn btn-warning btn-sm" id="stonePicks" data-toggle ="tooltip" data-placement="right" title = "Increases stone gain from miner by 25%. <br />
 							Cost: 100 stone, 100 wood">Stone Picks</button></td>
 						</tr>
+						<tr style="height:30px">
+							<td><button onclick="buyStoneShovels()" class = "upgradeButtons btn btn-warning btn-sm" id="stoneShovels" data-toggle ="tooltip" data-placement="right" title = "Provides access to new buildings<br />
+							Cost: 100 stone, 100 wood">Stone Shovels</button></td>
+						</tr>
 					</table>
 					
 					
 				</div>
+				<!--Buildings-->
 					<div class="col-sm-6" style="border-left: 1px solid rgba(0,0,0,.3)">
 						<table id="buildingTable">
 							<caption><b><center>Buildings</center></b></caption>
 							<tr>
-								<td style="width:150px"><button class="buildingButtons btn btn-danger btn-sm" onclick="buildHut()">Hut</button></td>
-								<td style="text-align:right">Hut Cost: <span id="hutCostWood">100</span> Wood, <span id="hutCostStone">50</span> Stone</td>
+								<td style="width:150px"><button class="buildingButtons btn btn-danger btn-sm" onclick="buildHut()">Hut</button></td>							
+								<td hidden id="well" style="width:150px"><button class="buildingButtons btn btn-danger btn-sm" onclick="buildWell()">Well</button></td>
 							</tr>
 						</table>
 					</div>
