@@ -1,3 +1,5 @@
+//harrison is a bitch
+
 //Resources
 var wood = 0;
 var food = 0;
